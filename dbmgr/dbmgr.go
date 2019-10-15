@@ -56,5 +56,8 @@ func NextIdForCol(col *mongo.Collection) uint32 {
 			}
 		}
 	}
+	if id == 0 {
+		return 1
+	}
 	return id
 }
