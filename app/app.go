@@ -2,18 +2,18 @@ package keykeeper
 
 import (
 	"context"
+	db "dbmgr"
 	"encoding/json"
+	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
-	"github.com/gorilla/mux"
-	"sync/atomic"
-	"net/http"
-	srv "server"
-	db "dbmgr"
-	"time"
 	"io"
 	"log"
+	"net/http"
 	"os"
+	srv "server"
+	"sync/atomic"
+	"time"
 )
 
 type KKApp struct {
@@ -21,8 +21,8 @@ type KKApp struct {
 	dbClient *mongo.Client
 	cid      CustomID
 	healthy  int32
-	stats  Stats
-	ttl			time.Duration
+	stats    Stats
+	ttl      time.Duration
 }
 
 type Stats struct {
@@ -36,7 +36,7 @@ type Key struct {
 	ID        uint32    `bson:"_id"`
 }
 
-func NewKeyKeeper(dbName string, dbClient *mongo.Client) *KKApp{
+func NewKeyKeeper(dbName string, dbClient *mongo.Client) *KKApp {
 	app := new(KKApp)
 	app.dbClient = dbClient
 	app.keyCol = dbClient.Database(dbName).Collection("keys")
@@ -78,8 +78,8 @@ func (app *KKApp) RegisterRoutes(server srv.Server) {
 		{"/health_check", app.createHandler(checkHealth), []string{"GET"}}})
 }
 
-func (app *KKApp) createHandler(f func(*KKApp, http.ResponseWriter,*http.Request)) func(http.ResponseWriter,*http.Request){
-	return func(w http.ResponseWriter, r *http.Request){
+func (app *KKApp) createHandler(f func(*KKApp, http.ResponseWriter, *http.Request)) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
 		f(app, w, r)
 	}
 }

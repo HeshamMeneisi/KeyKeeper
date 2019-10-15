@@ -1,13 +1,13 @@
 package tests
 
 import (
-  "gotest.tools/assert"
-	"testing"
-	"net/http"
 	"bytes"
-	"time"
+	"gotest.tools/assert"
 	"io"
-  srv "server"
+	"net/http"
+	srv "server"
+	"testing"
+	"time"
 )
 
 func postHandler(w http.ResponseWriter, r *http.Request) {
@@ -23,10 +23,10 @@ func Test_Mux_Server_GET(t *testing.T) {
 	var server = srv.NewMuxServer("5001")
 
 	server.MapRoutes([]*srv.Route{
-		{"/testget", getHandler, []string{"GET"}}});
+		{"/testget", getHandler, []string{"GET"}}})
 
 	// Act
-	go func(){
+	go func() {
 		server.Start()
 	}()
 
@@ -43,10 +43,10 @@ func Test_Mux_Server_POST(t *testing.T) {
 	var server = srv.NewMuxServer("5002")
 
 	server.MapRoutes([]*srv.Route{
-		{"/testpost", postHandler, []string{"POST"}}});
+		{"/testpost", postHandler, []string{"POST"}}})
 
 	// Act
-	go func(){
+	go func() {
 		server.Start()
 	}()
 	time.Sleep(10 * time.Second)

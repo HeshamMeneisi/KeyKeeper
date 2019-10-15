@@ -15,7 +15,7 @@ func NewMongoClient(containerName string) (*mongo.Client, error) {
 	var h string
 	if containerName == "" {
 		h = "127.0.0.1"
-	}else{
+	} else {
 		h = containerName
 	}
 	// Connect to DB
@@ -47,7 +47,9 @@ func NextIdForCol(col *mongo.Collection) uint32 {
 		id = rand.Uint32()
 	} else {
 		for cursor.Next(ctx) {
-			var obj struct{ID uint32 `bson:"_id"`}
+			var obj struct {
+				ID uint32 `bson:"_id"`
+			}
 			if err := cursor.Decode(&obj); err != nil {
 				log.Fatal(err)
 				id = rand.Uint32()

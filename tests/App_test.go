@@ -1,15 +1,15 @@
 package tests
 
 import (
-	"testing"
-	"gotest.tools/assert"
 	kk "app"
-	db "dbmgr"
-	s "server"
-	"net/http"
 	"bytes"
-	"time"
+	db "dbmgr"
 	"encoding/json"
+	"gotest.tools/assert"
+	"net/http"
+	s "server"
+	"testing"
+	"time"
 	// "io/ioutil"
 )
 
@@ -26,14 +26,14 @@ func Test_Simulation(t *testing.T) {
 	app.RegisterRoutes(server)
 
 	// Act
-	go func(){
+	go func() {
 		server.Start()
 	}()
 
 	time.Sleep(10 * time.Second)
 
 	message := map[string]string{
-		"key": "TEST_KEY"	}
+		"key": "TEST_KEY"}
 
 	bytesRepresentation, err := json.Marshal(message)
 	if err != nil {
@@ -45,10 +45,10 @@ func Test_Simulation(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 	// bodyBytes, err := ioutil.ReadAll(resp.Body)
-  //   if err != nil {
-  //       t.Log(err)
-  //   }
-  //   bodyString := string(bodyBytes)
+	//   if err != nil {
+	//       t.Log(err)
+	//   }
+	//   bodyString := string(bodyBytes)
 	// t.Log(bodyString)
 	var result map[string]string
 	json.NewDecoder(resp.Body).Decode(&result)
@@ -56,7 +56,7 @@ func Test_Simulation(t *testing.T) {
 	var id = result["id"]
 	t.Log("Received ID:", id)
 
-	resp, err = http.Get("http://127.0.0.1:5000/key/"+string(id))
+	resp, err = http.Get("http://127.0.0.1:5000/key/" + string(id))
 	if err != nil {
 		t.Errorf("%v", err)
 	}

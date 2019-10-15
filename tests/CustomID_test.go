@@ -1,9 +1,9 @@
 package tests
 
 import (
-  "gotest.tools/assert"
+	app "app"
+	"gotest.tools/assert"
 	"testing"
-  app "app"
 )
 
 func Test_Converstion(t *testing.T) {
