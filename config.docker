@@ -1,0 +1,8 @@
+# Server configurations
+server:
+  port: 8000
+
+# Database credentials
+database:
+  host: "mongodb"
+  port: "27017"

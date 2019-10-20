@@ -2,6 +2,7 @@ package dbmgr
 
 import (
 	"context"
+	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -11,16 +12,11 @@ import (
 	"time"
 )
 
-func NewMongoClient(containerName string) (*mongo.Client, error) {
-	var h string
-	if containerName == "" {
-		h = "127.0.0.1"
-	} else {
-		h = containerName
-	}
+func NewMongoClient(host string, port string) (*mongo.Client, error) {
 	// Connect to DB
+	url := fmt.Sprintf("mongodb://%s:%s", host, port)
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	client, err := mongo.Connect(ctx, options.Client().ApplyURI("mongodb://"+h+":27017"))
+	client, err := mongo.Connect(ctx, options.Client().ApplyURI(url))
 	if err != nil {
 		log.Fatal("Failed to connect to DB.")
 		log.Fatal(err)

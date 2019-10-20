@@ -3,6 +3,7 @@ package tests
 import (
 	kk "app"
 	"bytes"
+	cfg "config"
 	db "dbmgr"
 	"encoding/json"
 	"gotest.tools/assert"
@@ -10,7 +11,6 @@ import (
 	s "server"
 	"testing"
 	"time"
-	// "io/ioutil"
 )
 
 const (
@@ -20,8 +20,14 @@ const (
 
 func Test_Simulation(t *testing.T) {
 	// Arrange
-	client, _ := db.NewMongoClient("") // Docker: mongodb
+
+	// Load config
+	config := cfg.GetConfig("../config.yml")
+	// Connect to DB
+	client, _ := db.NewMongoClient(config.Database.Host, config.Database.Port)
+	// Start a server
 	server := s.NewMuxServer(PORT)
+	// Create the app
 	app := kk.NewKeyKeeper("kkDB", client)
 	app.RegisterRoutes(server)
 

@@ -19,5 +19,9 @@ jobs:
            command: go mod download
 
       - run:
+           name: Configure
+           command: cp config.circleci config.yml
+
+      - run:
            name: Run Tests
            command: go test -v ./tests
